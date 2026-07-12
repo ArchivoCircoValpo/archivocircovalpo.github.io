@@ -1,1 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archivo Circo Contemporáneo Valparaíso</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --azul:#1B3A6B;--azul2:#2E5FA3;--rojo:#B82C1A;
+  --verde:#1A6B3A;--violeta:#4A2075;--dorado:#7A5010;
+  --texto:#2C2C2A;--secundario:#5F5E5A;--borde:#D3D1C7;
+  --fondo:#F8F7F4;--blanco:#FFFFFF;--r:10px;
+}
+body{font-family:'Inter',sans-serif;color:var(--texto);background:var(--fondo);font-size:15px;line-height:1.6}
+.contenedor{max-width:860px;margin:0 auto;padding:0 1.5rem}
 
+.hero{background:var(--azul);color:#fff;padding:4rem 1.5rem 3rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.03) 40px,rgba(255,255,255,.03) 41px)}
+.hero-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:1rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;line-height:1.15;margin-bottom:.5rem}
+.hero h1 em{color:#F4C775;font-style:italic}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.7);margin-top:.75rem;font-weight:300}
+.hero-cita{border-left:3px solid #F4C775;text-align:left;margin:2rem auto 0;max-width:540px;padding:.75rem 1rem;background:rgba(255,255,255,.07);border-radius:0 var(--r) var(--r) 0}
+.hero-cita p{font-size:13px;font-style:italic;color:rgba(255,255,255,.85);line-height:1.6}
+.hero-cita span{font-size:11px;color:rgba(255,255,255,.5);display:block;margin-top:.5rem}
+
+.nav-interna{background:var(--blanco);border-bottom:1px solid var(--borde);position:sticky;top:0;z-index:100}
+.nav-interna ul{list-style:none;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.nav-interna ul::-webkit-scrollbar{display:none}
+.nav-interna li a{display:block;padding:.75rem 1.25rem;font-size:12px;font-weight:500;text-decoration:none;color:var(--secundario);white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.nav-interna li a:hover,.nav-interna li a.activo{color:var(--azul);border-bottom-color:var(--azul)}
+
+.seccion{padding:3rem 0}
+.seccion+.seccion{border-top:1px solid var(--borde)}
+.sec-eyebrow{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--secundario);margin-bottom:.5rem}
+.sec-titulo{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--azul);margin-bottom:1.5rem}
+.sec-titulo em{font-style:italic;color:var(--rojo)}
+.sec-intro{font-size:14px;color:var(--secundario);line-height:1.75;max-width:620px;margin-bottom:2rem}
+
+.filtros{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.75rem}
+.filtro-btn{padding:5px 14px;border-radius:20px;border:1px solid var(--borde);background:transparent;font-size:12px;font-family:'Inter',sans-serif;color:var(--secundario);cursor:pointer;transition:all .2s;font-weight:500}
+.filtro-btn:hover{border-color:#888;color:var(--texto)}
+.filtro-btn.on{border-color:transparent;color:#fff}
+.filtro-btn.on.f-todo{background:var(--azul)}
+.filtro-btn.on.f-espacio{background:var(--rojo)}
+.filtro-btn.on.f-compania{background:var(--azul2)}
+.filtro-btn.on.f-festival{background:var(--dorado)}
+.filtro-btn.on.f-formacion{background:var(--verde)}
+.filtro-btn.on.f-gremio{background:var(--violeta)}
+
+.era-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--secundario);margin:2rem 0 1rem;padding-left:calc(56px + 1rem);font-style:italic}
+.hito{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1rem}
+.hito.oculto{display:none}
+.hito-meta{flex-shrink:0;width:56px;display:flex;flex-direction:column;align-items:center;padding-top:10px;gap:4px}
+.hito-año{font-size:10px;font-weight:500;color:var(--secundario);line-height:1}
+.hito-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:2px solid var(--fondo)}
+.f-espacio .hito-dot{background:var(--rojo)}
+.f-compania .hito-dot{background:var(--azul2)}
+.f-festival .hito-dot{background:var(--dorado)}
+.f-formacion .hito-dot{background:var(--verde)}
+.f-gremio .hito-dot{background:var(--violeta)}
+.hito-card{flex:1;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r);padding:1rem;transition:all .2s}
+.hito-card:hover{border-color:#888}
+.hito-top{display:flex;align-items:flex-start;gap:.5rem;margin-bottom:.4rem;flex-wrap:wrap}
+.hito-tag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;flex-shrink:0;text-transform:uppercase;letter-spacing:.5px}
+.f-espacio .hito-tag{background:#FCEBEB;color:#791F1F}
+.f-compania .hito-tag{background:#E6F1FB;color:#0C447C}
+.f-festival .hito-tag{background:#FAEEDA;color:#633806}
+.f-formacion .hito-tag{background:#EAF3DE;color:#27500A}
+.f-gremio .hito-tag{background:#EEEDFE;color:#3C3489}
+.hito-titulo{font-size:14px;font-weight:500;flex:1;line-height:1.3}
+.hito-desc{font-size:13px;color:var(--secundario);line-height:1.6}
+.hito-actores{display:flex;flex-wrap:wrap;gap:4px;margin-top:.5rem}
+.actor-chip{font-size:11px;background:var(--fondo);border:1px solid var(--borde);border-radius:20px;padding:2px 8px;color:var(--secundario)}
+.hito-pendiente{font-size:11px;color:var(--rojo);font-style:italic;margin-top:.4rem}
+.hito-fuente{font-size:10px;color:#B4B2A9;margin-top:.4rem}
+
+.nucleo{background:var(--azul);color:#fff;border-radius:var(--r);padding:2rem;margin-bottom:2rem}
+.nucleo-eyebrow{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.75rem}
+.nucleo h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:#F4C775;margin-bottom:.75rem}
+.nucleo p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:1rem}
+.nucleo-datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin-top:1.25rem}
+.nucleo-dato{background:rgba(255,255,255,.1);border-radius:8px;padding:.75rem}
+.nucleo-dato-label{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.nucleo-dato-valor{font-size:13px;font-weight:500;color:#fff}
+
+.companias-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.75rem}
+.comp-card{background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r);padding:1.1rem;transition:all .2s}
+.comp-card:hover{border-color:#888}
+.comp-card.es-nucleo{border-color:var(--azul);border-width:2px}
+.comp-top{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.6rem}
+.comp-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.comp-nombre{font-size:14px;font-weight:500;line-height:1.3}
+.comp-periodo{font-size:11px;color:var(--secundario);margin-top:2px}
+.comp-badges{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:.5rem}
+.comp-badge{font-size:10px;padding:2px 7px;border-radius:20px}
+.comp-desc{font-size:12px;color:var(--secundario);line-height:1.5}
+.comp-personas{display:flex;flex-wrap:wrap;gap:3px;margin-top:.5rem}
+.comp-chip{font-size:10px;background:var(--fondo);border:1px solid var(--borde);border-radius:20px;padding:1px 7px;color:var(--secundario)}
+.nucleo-badge{font-size:9px;background:#1B3A6B;color:#F4C775;border-radius:20px;padding:2px 7px;font-weight:600;letter-spacing:.5px;display:inline-block;margin-bottom:.5rem}
+
+.espacios-lista{display:flex;flex-direction:column;gap:.75rem}
+.espacio-item{display:flex;gap:.75rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r);padding:1rem}
+.espacio-dot{width:12px;height:12px;border-radius:50%;background:var(--rojo);flex-shrink:0;margin-top:4px}
+.espacio-periodo{font-size:11px;font-weight:500;color:var(--secundario);min-width:90px;flex-shrink:0;padding-top:2px}
+.espacio-nombre{font-size:14px;font-weight:500;margin-bottom:3px}
+.espacio-desc{font-size:12px;color:var(--secundario);line-height:1.5}
+
+.fuentes-grid{display:flex;flex-direction:column;gap:.75rem}
+.fuente-card{background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r);padding:1rem}
+.fuente-top{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.5rem}
+.fuente-icon{width:32px;height:32px;border-radius:8px;background:var(--fondo);border:1px solid var(--borde);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.fuente-nombre{font-size:14px;font-weight:500}
+.fuente-tipo{font-size:11px;color:var(--secundario);margin-top:1px}
+.fuente-desc{font-size:12px;color:var(--secundario);line-height:1.5}
+.fuente-badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:.5rem}
+.f-badge{font-size:10px;padding:2px 8px;border-radius:20px}
+.f-clave{background:#FCEBEB;color:#791F1F;font-weight:600}
+.f-digital{background:#E6F1FB;color:#0C447C}
+.f-libre{background:#EAF3DE;color:#27500A}
+.f-valpo{background:#EEEDFE;color:#3C3489}
+
+.pat-box{background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r);padding:1.5rem;margin-bottom:1rem}
+.pat-box h4{font-size:14px;font-weight:500;color:var(--azul);margin-bottom:.5rem}
+.pat-box p{font-size:13px;color:var(--secundario);line-height:1.6}
+.pat-destaque{background:var(--azul);color:#fff;border-radius:var(--r);padding:1.5rem;margin-bottom:1rem}
+.pat-destaque p{font-size:13px;color:rgba(255,255,255,.85);line-height:1.7}
+.pat-destaque strong{color:#F4C775}
+
+.crono{display:flex;flex-direction:column;gap:.4rem}
+.crono-item{display:flex;gap:.75rem;padding:.6rem .75rem;border-radius:8px;background:var(--fondo);font-size:13px}
+.crono-item.c-valpo{border-left:3px solid var(--rojo)}
+.crono-item.c-hito{border-left:3px solid var(--violeta)}
+.crono-año{font-weight:500;min-width:44px;flex-shrink:0}
+.crono-hecho{color:var(--secundario);line-height:1.4}
+.crono-hecho strong{color:var(--texto)}
+
+.participa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin-bottom:2rem}
+.participa-card{background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r);padding:1.1rem}
+.participa-card h4{font-size:14px;font-weight:500;margin-bottom:.4rem}
+.participa-card p{font-size:12px;color:var(--secundario);line-height:1.5}
+.form-campo{margin-bottom:.75rem}
+.form-campo label{display:block;font-size:12px;font-weight:500;color:var(--secundario);margin-bottom:.3rem}
+.form-campo input,.form-campo textarea,.form-campo select{width:100%;padding:.6rem .75rem;border:1px solid var(--borde);border-radius:8px;font-family:'Inter',sans-serif;font-size:13px;color:var(--texto);background:var(--blanco);outline:none;transition:border-color .2s}
+.form-campo input:focus,.form-campo textarea:focus,.form-campo select:focus{border-color:var(--azul2)}
+.form-campo textarea{min-height:100px;resize:vertical}
+.form-submit{background:var(--azul);color:#fff;border:none;border-radius:8px;padding:.7rem 1.5rem;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:background .2s}
+.form-submit:hover{background:var(--azul2)}
+
+.pie{background:var(--azul);color:rgba(255,255,255,.7);text-align:center;padding:2rem 1.5rem;font-size:12px;margin-top:2rem}
+.pie strong{color:#fff}
+.pie a{color:#F4C775;text-decoration:none}
+
+@media(max-width:600px){
+  .hito{gap:.5rem}
+  .hito-meta{width:44px}
+  .companias-grid{grid-template-columns:1fr}
+  .nucleo-datos{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-eyebrow">Valparaíso · Memoria viva del gremio circense</div>
+  <h1>Archivo del<br><em>Circo Contemporáneo</em><br>de Valparaíso</h1>
+  <p class="hero-sub">Desde la Ex Cárcel — Parque Cultural de Valparaíso — al presente · Desde 1995 hasta hoy</p>
+  <div class="hero-cita">
+    <p>"Valparaíso fue la primera ciudad de Chile en recibir un circo en 1827. Este es el archivo de quienes continuaron esa historia."</p>
+    <span>Archivo Comunitario del Circo Contemporáneo de Valparaíso, 2025</span>
+  </div>
+</header>
+
+<nav class="nav-interna">
+  <ul>
+    <li><a href="#timeline" class="activo">Línea de tiempo</a></li>
+    <li><a href="#enaires">Núcleo: Enaires</a></li>
+    <li><a href="#companias">Compañías</a></li>
+    <li><a href="#espacios">Espacios</a></li>
+    <li><a href="#fuentes">Fuentes</a></li>
+    <li><a href="#patrimonio">Patrimonio</a></li>
+    <li><a href="#participa">Participa</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section class="seccion" id="timeline">
+<div class="contenedor">
+  <p class="sec-eyebrow">Memoria colectiva</p>
+  <h2 class="sec-titulo">Línea de <em>tiempo</em></h2>
+  <p class="sec-intro">Historia del circo contemporáneo en Valparaíso organizada en eras. Los hitos marcados con ⊕ están pendientes de verificación con el gremio.</p>
+  <div class="filtros">
+    <button class="filtro-btn on f-todo" onclick="filtrar('todo',this)">Todos</button>
+    <button class="filtro-btn f-espacio" onclick="filtrar('espacio',this)">Espacios</button>
+    <button class="filtro-btn f-compania" onclick="filtrar('compania',this)">Compañías</button>
+    <button class="filtro-btn f-festival" onclick="filtrar('festival',this)">Festivales</button>
+    <button class="filtro-btn f-formacion" onclick="filtrar('formacion',this)">Formación</button>
+    <button class="filtro-btn f-gremio" onclick="filtrar('gremio',this)">Gremio</button>
+  </div>
+  <div class="timeline" id="timeline-contenedor"></div>
+</div>
+</section>
+
+<section class="seccion" id="enaires">
+<div class="contenedor">
+  <p class="sec-eyebrow">Eje historiográfico del archivo</p>
+  <h2 class="sec-titulo">Enaires <em>Acrobacia Aérea</em></h2>
+  <p class="sec-intro">La compañía con mayor trayectoria documentada del circo contemporáneo porteño. Nace el 21 de abril de 2006 como Galería de Artes Visuales en Cerro Cordillera — un gesto de ocupación espacial que define su identidad hasta hoy.</p>
+
+  <div class="nucleo">
+    <div class="nucleo-eyebrow">Núcleo histórico del archivo</div>
+    <h3>Enaires Acrobacia Aérea</h3>
+    <p>"Enaires es un proceso de trabajo sobre cómo ocupamos lugares que reciben cuerpos en el accionar del día a día." — Blog Enaires, abril 2006.</p>
+    <p>"Nos interesa la investigación corporal en su máxima expresión, a través de la fusión con elementos aéreos, integrando las artes visuales, escénicas y sonoras." — Mario Núñez y Daniela Schuster.</p>
+    <div class="nucleo-datos">
+      <div class="nucleo-dato"><div class="nucleo-dato-label">Origen</div><div class="nucleo-dato-valor">21 abril 2006 · Galería de Artes Visuales</div></div>
+      <div class="nucleo-dato"><div class="nucleo-dato-label">Fundadores</div><div class="nucleo-dato-valor">Mario Núñez · Laura Daniela Schuster Manríquez</div></div>
+      <div class="nucleo-dato"><div class="nucleo-dato-label">Primer espacio</div><div class="nucleo-dato-valor">Pasaje Ramón Ángel Jara 271, Cerro Cordillera</div></div>
+      <div class="nucleo-dato"><div class="nucleo-dato-label">Sede actual</div><div class="nucleo-dato-valor">Ex Maestranza Barón</div></div>
+      <div class="nucleo-dato"><div class="nucleo-dato-label">Contacto</div><div class="nucleo-dato-valor">cia.enaires@gmail.com</div></div>
+      <div class="nucleo-dato"><div class="nucleo-dato-label">Fuente primaria</div><div class="nucleo-dato-valor">enaires.blogspot.com/2006/04</div></div>
+    </div>
+  </div>
+
+  <h3 style="font-size:1rem;font-weight:500;color:var(--azul);margin-bottom:1rem">Itinerario de espacios</h3>
+  <div class="espacios-lista">
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--rojo)"></div>
+      <div class="espacio-periodo">2006</div>
+      <div><div class="espacio-nombre">Pasaje Ramón Ángel Jara 271 — Cerro Cordillera</div><div class="espacio-desc">Primer espacio de Enaires: edificio de la Ex-Imprenta Litográfica Universo intervenido durante un año. Se abre al público el 21 de abril de 2006 como Galería de Artes Visuales efímera. El nombre Enaires nace aquí.</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--violeta)"></div>
+      <div class="espacio-periodo">~1999–2006</div>
+      <div><div class="espacio-nombre">Ex Cárcel de Valparaíso</div><div class="espacio-desc">Mario y Daniela impulsan la creación del espacio de circo en la Ex Cárcel junto al grupo fundacional del nuevo circo porteño. Testigos directos del período pre-PCdV.</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--azul2)"></div>
+      <div class="espacio-periodo">2006–2012</div>
+      <div><div class="espacio-nombre">Carpa Azul — Cerro Barón</div><div class="espacio-desc">Seis años de trabajo continuo. Daniela Schuster crece como gestora y cofunda el Festival Valparaíso Circo desde este espacio.</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:#888"></div>
+      <div class="espacio-periodo">~2010–2013</div>
+      <div><div class="espacio-nombre">Centro Trafón, Valparaíso</div><div class="espacio-desc">Período de transición documentado en testimonios orales.</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--verde)"></div>
+      <div class="espacio-periodo">2013–2019</div>
+      <div><div class="espacio-nombre">Parque Cultural de Valparaíso (PCdV)</div><div class="espacio-desc">Retorno al espacio de la Ex Cárcel. Mayor actividad escénica y formativa. Estreno de "Sueño de Voces a la Libertad" en junio 2023.</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--rojo)"></div>
+      <div class="espacio-periodo">2019–hoy</div>
+      <div><div class="espacio-nombre">Ex Maestranza Barón — sede actual</div><div class="espacio-desc">Espacio recuperado y adaptado por los fundadores. Laboratorio escénico, clases continuas, muestras, residencias y Encuentros Integrales de Circo anuales.</div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="seccion" id="companias">
+<div class="contenedor">
+  <p class="sec-eyebrow">Catálogo del gremio</p>
+  <h2 class="sec-titulo"><em>Compañías</em> del circo contemporáneo</h2>
+  <p class="sec-intro">Registro de las compañías y colectivos del circo contemporáneo en Valparaíso. En construcción permanente.</p>
+  <div class="companias-grid">
+
+    <div class="comp-card es-nucleo">
+      <div class="nucleo-badge">★ Núcleo del archivo</div>
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#E6F1FB">🌀</div>
+        <div><div class="comp-nombre">Enaires Acrobacia Aérea</div><div class="comp-periodo">Desde 2006 · Ex Maestranza Barón</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#EEEDFE;color:#3C3489">Pionera</span>
+        <span class="comp-badge" style="background:#E6F1FB;color:#0C447C">Aéreas</span>
+        <span class="comp-badge" style="background:#EAF3DE;color:#27500A">Formación</span>
+      </div>
+      <div class="comp-desc">Nace el 21 de abril de 2006 como Galería de Artes Visuales en Cerro Cordillera. Hoy compañía de acrobacia aérea y eje del archivo. Fundadora del Festival Valparaíso Circo (primeras 5 versiones).</div>
+      <div class="comp-personas"><span class="comp-chip">Mario Núñez</span><span class="comp-chip">Daniela Schuster</span></div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#FCEBEB">🏕</div>
+        <div><div class="comp-nombre">Carpa Azul Circo</div><div class="comp-periodo">Desde ~1999 · Cerro Barón</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#EEEDFE;color:#3C3489">Pionera</span>
+        <span class="comp-badge" style="background:#FCEBEB;color:#791F1F">Espacio</span>
+      </div>
+      <div class="comp-desc">10 años en la Ex Cárcel. Formalizada en 2010 en Cerro Barón. Centro de gravedad del circo comunitario porteño. Festival Valparaíso Circo desde 2010.</div>
+      <div class="comp-personas"><span class="comp-chip">Pato Giro</span><span class="comp-chip">Cecilia Salas</span></div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#EAF3DE">🎭</div>
+        <div><div class="comp-nombre">Teatro Bandáscara</div><div class="comp-periodo">Desde 2005 · Valparaíso</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#EEEDFE;color:#3C3489">Pionera</span>
+        <span class="comp-badge" style="background:#FAEEDA;color:#633806">Multidisciplinaria</span>
+      </div>
+      <div class="comp-desc">Fundada en 2005 por Pato Giro y Cecilia Salas. Fusiona circo, teatro, música en vivo y canto teatral. Participó en el Colectivo Valparaíso Circo (2006–2007) junto a Enaires.</div>
+      <div class="comp-personas"><span class="comp-chip">Pato Giro</span><span class="comp-chip">Cecilia Salas</span></div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#FAEEDA">🤸</div>
+        <div><div class="comp-nombre">Silico Circo</div><div class="comp-periodo">~1995–2003 · Valparaíso</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#FCEBEB;color:#791F1F">Pionera callejera</span>
+      </div>
+      <div class="comp-desc">Compañía pionera de circo callejero en Valparaíso. Colaboró con Tomás Kaulen en "Primer mal, un artista del trapecio" (2005). Uno de los primeros colectivos circenses documentados de la ciudad.</div>
+      <div class="comp-personas"><span class="comp-chip">Integrantes a identificar ⊕</span></div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#FAEEDA">🤹</div>
+        <div><div class="comp-nombre">Malabicirco</div><div class="comp-periodo">Desde 2003 · Valparaíso</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#EEEDFE;color:#3C3489">Pionera</span>
+      </div>
+      <div class="comp-desc">Compañía porteña con +18 años de trayectoria. Circulación nacional e internacional. Giras por los cerros de Valparaíso.</div>
+      <div class="comp-personas"><span class="comp-chip">Javier Morales González</span><span class="comp-chip">Wladimir Velásquez Pinto</span></div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#E6F1FB">🎪</div>
+        <div><div class="comp-nombre">Circo Virtual</div><div class="comp-periodo">Desde 2001 · Santiago/Valparaíso</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#EEEDFE;color:#3C3489">Pionera</span>
+        <span class="comp-badge" style="background:#E6F1FB;color:#0C447C">Interdisciplina</span>
+      </div>
+      <div class="comp-desc">Circo, música, dibujo y tecnología. 5 montajes documentados desde 2001. Co-creó "Especulaciones sobre lo humano" con Circo Hechizo en el PCdV (2017).</div>
+      <div class="comp-personas"><span class="comp-chip">Juan Pablo Corvalán</span></div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#EEEDFE">🔮</div>
+        <div><div class="comp-nombre">ECPKH / Circo Hechizo</div><div class="comp-periodo">2010 / 2017 · Valparaíso</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#E6F1FB;color:#0C447C">Consolidada</span>
+      </div>
+      <div class="comp-desc">ECPKH fundada en 2010 por Tomás Kaulen y Álvaro Pacheco. Circo Hechizo (2017): plataforma de archivo y creación nómade. "Circo de A'onde", "El Proyeccionista".</div>
+      <div class="comp-personas"><span class="comp-chip">Tomás Kaulen</span><span class="comp-chip">Álvaro Pacheco</span></div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#FCEBEB">🎸</div>
+        <div><div class="comp-nombre">Bandita Disparate</div><div class="comp-periodo">Activa · Cerro Barón / Carpa Azul</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#EAF3DE;color:#27500A">Comunitaria</span>
+      </div>
+      <div class="comp-desc">Nació bajo el alero de Carpa Azul. Rock, ska, funky y reggae con números de alto riesgo y humor. Integra la Red Circordillera.</div>
+      <div class="comp-personas"><span class="comp-chip">Cecilia Salas</span></div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#EAF3DE">🌿</div>
+        <div><div class="comp-nombre">Colectivo Artístico Urgente Delirio</div><div class="comp-periodo">Activo · Valparaíso</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#EEEDFE;color:#3C3489">Teatro + Circo</span>
+        <span class="comp-badge" style="background:#FCEBEB;color:#791F1F">DDHH</span>
+      </div>
+      <div class="comp-desc">Colectivo que involucra teatro, circo y enfoque en derechos humanos. Colaboró extensamente con Enaires. Obras: "Sadako", "La historia de Martín el niño que no quería ser payaso", "Una historia vieja", "Caliche", "Cabildo".</div>
+      <div class="comp-personas"><span class="comp-chip">Integrantes a identificar ⊕</span></div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#FAEEDA">🪡</div>
+        <div><div class="comp-nombre">ContrahíloLab</div><div class="comp-periodo">Activa · Valparaíso</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#E6F1FB;color:#0C447C">Consolidada</span>
+        <span class="comp-badge" style="background:#EEEDFE;color:#3C3489">Interdisciplina</span>
+      </div>
+      <div class="comp-desc">Circo, teatro, danza y arte textil. Estreno en PCdV 2026: "Mujeres que tejen en el aire" (Fondo Artes Escénicas 2025).</div>
+      <div class="comp-personas"><span class="comp-chip">Juliana da Silva Martins</span><span class="comp-chip">Daniela Schuster</span></div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-top">
+        <div class="comp-icon" style="background:#FCEBEB">🌸</div>
+        <div><div class="comp-nombre">Colectiva Circense Libres, Lindas y Locas</div><div class="comp-periodo">Desde 2015 · Valparaíso</div></div>
+      </div>
+      <div class="comp-badges">
+        <span class="comp-badge" style="background:#FCEBEB;color:#791F1F">Circo femenino</span>
+        <span class="comp-badge" style="background:#EAF3DE;color:#27500A">Colectiva</span>
+      </div>
+      <div class="comp-desc">Compañía de circo contemporáneo integrada exclusivamente por mujeres, fundada en 2015. Busca equilibrar una escena históricamente dominada por hombres. Participó en el Festival Valparaíso Circo 2021.</div>
+      <div class="comp-personas"><span class="comp-chip">Sol Catalán</span><span class="comp-chip">Otras integrantes ⊕</span></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<section class="seccion" id="espacios">
+<div class="contenedor">
+  <p class="sec-eyebrow">Geografía del circo en Valparaíso</p>
+  <h2 class="sec-titulo">Los <em>espacios</em> del circo</h2>
+  <p class="sec-intro">Mapa histórico de los lugares que han habitado el circo contemporáneo en Valparaíso.</p>
+  <div class="espacios-lista">
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--rojo)"></div>
+      <div class="espacio-periodo">1827 · Origen</div>
+      <div><div class="espacio-nombre">Plaza Victoria — primera huella del circo en Chile</div><div class="espacio-desc">El circo inglés de Nathaniel Bogardus se instala en Valparaíso. La calle quedó llamada "Calle del Circo".</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--dorado)"></div>
+      <div class="espacio-periodo">2000 · Formación</div>
+      <div><div class="espacio-nombre">Muelle Vergara — AMMUVE</div><div class="espacio-desc">Nace AMMUVE (Agrupación de Malabaristas del Muelle Vergara), primera agrupación de malabaristas organizada de Valparaíso, surgida de una formación circense financiada en el año 2000 para enseñar malabares. Fuente: youtube.com/watch?v=Sr3otDVZNq0</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--violeta)"></div>
+      <div class="espacio-periodo">~1999–2010</div>
+      <div><div class="espacio-nombre">Ex Cárcel de Valparaíso — incubadora del nuevo circo</div><div class="espacio-desc">Espacio habitado por los primeros colectivos de circo contemporáneo. Enaires impulsa infraestructura circense. Funciona como incubadora del gremio antes de convertirse en PCdV.</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--rojo)"></div>
+      <div class="espacio-periodo">2006 · Origen Enaires</div>
+      <div><div class="espacio-nombre">Pasaje Ramón Ángel Jara 271 — Cerro Cordillera</div><div class="espacio-desc">Edificio de la Ex-Imprenta Litográfica Universo intervenido por Enaires durante un año. Se inaugura el 21 de abril de 2006 como Galería de Artes Visuales. Primer espacio propio de Enaires y origen del nombre.</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--azul2)"></div>
+      <div class="espacio-periodo">2010–hoy</div>
+      <div><div class="espacio-nombre">Carpa Azul — Cerro Barón</div><div class="espacio-desc">Nace en 2010 cuando los artistas salen de la Ex Cárcel. Festival Valparaíso Circo desde 2010. Escuela, talleres y espectáculos continuos. Sede en Santa Inés 38, Cerro Barón.</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--verde)"></div>
+      <div class="espacio-periodo">2013–hoy</div>
+      <div><div class="espacio-nombre">Parque Cultural de Valparaíso (PCdV)</div><div class="espacio-desc">La Ex Cárcel rehabilitada como centro cultural. Principal espacio de creación, residencia y presentación del circo contemporáneo en Valparaíso.</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:var(--rojo)"></div>
+      <div class="espacio-periodo">2019–hoy</div>
+      <div><div class="espacio-nombre">Ex Maestranza Barón — laboratorio activo</div><div class="espacio-desc">Galpones recuperados por Enaires. Laboratorio escénico, clases, residencias y Encuentros Integrales de Circo anuales. Compartido con Teatro Container y escuela Tarpuy.</div></div>
+    </div>
+    <div class="espacio-item">
+      <div class="espacio-dot" style="background:#B4B2A9"></div>
+      <div class="espacio-periodo">Siempre</div>
+      <div><div class="espacio-nombre">Los cerros y la calle</div><div class="espacio-desc">El circo contemporáneo de Valparaíso ha habitado permanentemente cerros, escaleras, plazas y espacios públicos. El territorio porteño como escenario permanente.</div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="seccion" id="fuentes">
+<div class="contenedor">
+  <p class="sec-eyebrow">Repositorios y bibliografía</p>
+  <h2 class="sec-titulo"><em>Fuentes</em> del archivo</h2>
+  <p class="sec-intro">Inventario de repositorios, publicaciones y colecciones que nutren el archivo.</p>
+  <div class="fuentes-grid">
+
+    <div class="fuente-card">
+      <div class="fuente-top">
+        <div class="fuente-icon">📝</div>
+        <div><div class="fuente-nombre">Blog Enaires — Fuente primaria</div><div class="fuente-tipo">enaires.blogspot.com/2006/04 · Registro original desde el origen</div></div>
+      </div>
+      <div class="fuente-desc">Blog original de Enaires desde abril de 2006. Contiene la invitación a la inauguración de la Galería Enaires el 21 de abril de 2006 en Cerro Cordillera. Fuente primaria excepcional: documenta el nacimiento de Enaires con fecha exacta, dirección y descripción del proyecto.</div>
+      <div class="fuente-badges"><span class="f-badge f-clave">FUENTE PRIMARIA</span><span class="f-badge f-digital">Digital</span><span class="f-badge f-valpo">Origen Valparaíso</span></div>
+    </div>
+
+    <div class="fuente-card">
+      <div class="fuente-top">
+        <div class="fuente-icon">🌿</div>
+        <div><div class="fuente-nombre">Blog Colectivo Urgente Delirio</div><div class="fuente-tipo">urgentedelirio.blogspot.com · Registro de obras y colaboraciones</div></div>
+      </div>
+      <div class="fuente-desc">Blog del Colectivo Artístico Urgente Delirio, colaboradores históricos de Enaires. Contiene registros de las obras compartidas: "Sadako", "La historia de Martín", "Una historia vieja", "Caliche", "Cabildo". Fuente directa para documentar la colaboración teatro-circo-derechos humanos en Valparaíso.</div>
+      <div class="fuente-badges"><span class="f-badge f-clave">COLABORACIÓN ENAIRES</span><span class="f-badge f-digital">Digital</span></div>
+    </div>
+
+    <div class="fuente-card">
+      <div class="fuente-top">
+        <div class="fuente-icon">🎬</div>
+        <div><div class="fuente-nombre">AMMUVE — Registro audiovisual</div><div class="fuente-tipo">youtube.com/watch?v=Sr3otDVZNq0 · Agrupación Malabaristas Muelle Vergara</div></div>
+      </div>
+      <div class="fuente-desc">Registro audiovisual de AMMUVE, primera agrupación de malabaristas del Muelle Vergara, surgida de la formación circense del año 2000. Fuente que documenta el origen de la escena callejera organizada en Valparaíso.</div>
+      <div class="fuente-badges"><span class="f-badge f-clave">ORIGEN CALLEJERO</span><span class="f-badge f-digital">Video</span><span class="f-badge f-valpo">Muelle Vergara</span></div>
+    </div>
+
+    <div class="fuente-card">
+      <div class="fuente-top">
+        <div class="fuente-icon">🎞</div>
+        <div><div class="fuente-nombre">Circoteca — circoteca.cl</div><div class="fuente-tipo">Agrupación Circo Chile · Archivo audiovisual digital · Desde 2015</div></div>
+      </div>
+      <div class="fuente-desc">Primera plataforma nacional de documentación audiovisual del circo contemporáneo chileno. Lanzada en el Centex de Valparaíso en 2015. Contacto: circochile@gmail.com</div>
+      <div class="fuente-badges"><span class="f-badge f-clave">FUENTE CLAVE</span><span class="f-badge f-digital">Digital</span><span class="f-badge f-libre">Acceso libre</span></div>
+    </div>
+
+    <div class="fuente-card">
+      <div class="fuente-top">
+        <div class="fuente-icon">🏛</div>
+        <div><div class="fuente-nombre">Memoria Chilena — Sección "El Circo"</div><div class="fuente-tipo">Biblioteca Nacional · memoriachilena.gob.cl</div></div>
+      </div>
+      <div class="fuente-desc">Cronología desde 1827, documentos digitalizados y fotografías patrimoniales. Confirma que el primer circo en Chile llegó en 1827 a Valparaíso y el primer circo chileno se fundó en 1885 también en Valparaíso.</div>
+      <div class="fuente-badges"><span class="f-badge f-digital">Digital</span><span class="f-badge f-libre">Acceso libre</span><span class="f-badge f-valpo">Origen Valparaíso</span></div>
+    </div>
+
+    <div class="fuente-card">
+      <div class="fuente-top">
+        <div class="fuente-icon">🎙</div>
+        <div><div class="fuente-nombre">Testimonios orales del gremio — pendientes</div><div class="fuente-tipo">Historia oral · Entrevistas por realizar</div></div>
+      </div>
+      <div class="fuente-desc">Entrevistas prioritarias: Mario Núñez y Daniela Schuster (Enaires), Sol Catalán (Colectiva Libres Lindas y Locas), Pato Giro y Cecilia Salas (Carpa Azul / Bandáscara), Tomás Kaulen (Circo Hechizo).</div>
+      <div class="fuente-badges"><span class="f-badge" style="background:#FAEEDA;color:#633806">PRIORIDAD ALTA</span></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<section class="seccion" id="patrimonio">
+<div class="contenedor">
+  <p class="sec-eyebrow">Argumento patrimonial</p>
+  <h2 class="sec-titulo">Circo contemporáneo como <em>patrimonio vivo</em></h2>
+  <div class="pat-destaque">
+    <p><strong>Valparaíso es la cuna del circo chileno.</strong> El primer circo en Chile llegó a la Plaza Victoria en 1827. El primer circo chileno lo fundaron los hermanos Pacheco en 1885, también en Valparaíso. En 2022, el Circo Tradicional fue declarado <strong>Patrimonio Cultural Inmaterial</strong>. El circo contemporáneo aún no tiene esa declaración. Este archivo es el primer paso.</p>
+  </div>
+  <div class="crono">
+    <div class="crono-item c-valpo"><div class="crono-año">1827</div><div class="crono-hecho">Primer circo en Chile: <strong>Nathaniel Bogardus</strong> en la Plaza Victoria. La calle queda llamada "Calle del Circo".</div></div>
+    <div class="crono-item c-valpo"><div class="crono-año">1885</div><div class="crono-hecho">Los <strong>hermanos Pacheco</strong> fundan el <strong>primer circo chileno</strong> en Valparaíso.</div></div>
+    <div class="crono-item c-hito"><div class="crono-año">~1995</div><div class="crono-hecho"><strong>Silico Circo</strong> y primeros colectivos de circo callejero contemporáneo en Valparaíso.</div></div>
+    <div class="crono-item c-hito"><div class="crono-año">2000</div><div class="crono-hecho">Formación circense y nacimiento de <strong>AMMUVE</strong> — primera agrupación de malabaristas del Muelle Vergara.</div></div>
+    <div class="crono-item c-hito"><div class="crono-año">2005</div><div class="crono-hecho">Fundación de <strong>Teatro Bandáscara</strong> por Pato Giro y Cecilia Salas.</div></div>
+    <div class="crono-item c-hito"><div class="crono-año">2006</div><div class="crono-hecho"><strong>Enaires</strong> nace el 21 de abril como Galería de Artes Visuales en Cerro Cordillera.</div></div>
+    <div class="crono-item c-hito"><div class="crono-año">2007</div><div class="crono-hecho">El circo contemporáneo es reconocido formalmente como <strong>Arte Escénico</strong> en Chile.</div></div>
+    <div class="crono-item c-hito"><div class="crono-año">2010</div><div class="crono-hecho">Primer <strong>Festival Valparaíso Circo</strong>. <strong>Carpa Azul</strong> formaliza sede en Cerro Barón.</div></div>
+    <div class="crono-item c-hito"><div class="crono-año">2015</div><div class="crono-hecho"><strong>Circoteca</strong> se lanza en el Centex de Valparaíso. <strong>Colectiva Libres, Lindas y Locas</strong> se funda.</div></div>
+    <div class="crono-item c-hito"><div class="crono-año">2022</div><div class="crono-hecho">El <strong>Circo Tradicional Chileno es declarado PCI</strong>. El circo contemporáneo queda fuera.</div></div>
+    <div class="crono-item c-hito"><div class="crono-año">2025</div><div class="crono-hecho">Creación del <strong>Archivo Comunitario del Circo Contemporáneo de Valparaíso</strong>.</div></div>
+  </div>
+</div>
+</section>
+
+<section class="seccion" id="participa">
+<div class="contenedor">
+  <p class="sec-eyebrow">El archivo eres tú</p>
+  <h2 class="sec-titulo"><em>Participa</em> en el archivo</h2>
+  <p class="sec-intro">Este archivo pertenece al gremio circense de Valparaíso. Tu memoria es parte de este archivo.</p>
+  <div class="participa-grid">
+    <div class="participa-card"><h4>🎙 Comparte tu testimonio</h4><p>¿Estuviste en los inicios? Tu relato es irreemplazable.</p></div>
+    <div class="participa-card"><h4>📷 Aporta fotografías</h4><p>Fotos de ensayos, espectáculos, festivales, espacios. Cada imagen es un documento histórico.</p></div>
+    <div class="participa-card"><h4>📄 Comparte documentos</h4><p>Programas de mano, recortes de prensa, proyectos Fondart. Todo suma.</p></div>
+    <div class="participa-card"><h4>✏️ Corrige un dato</h4><p>¿Algo está mal? Ayúdanos a mejorar. El archivo distingue datos verificados de datos a confirmar.</p></div>
+  </div>
+  <div style="background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r);padding:1.5rem;max-width:560px">
+    <h3 style="font-size:1rem;font-weight:500;margin-bottom:1.25rem;color:var(--azul)">Formulario de contacto</h3>
+    <div class="form-campo"><label>Tu nombre</label><input type="text" id="nombre" placeholder="Nombre completo"></div>
+    <div class="form-campo"><label>Correo electrónico</label><input type="email" id="correo" placeholder="Para que podamos responderte"></div>
+    <div class="form-campo"><label>¿Qué quieres aportar?</label>
+      <select id="tipo">
+        <option value="">— Elige una opción —</option>
+        <option>Testimonio o entrevista</option>
+        <option>Fotografías o videos</option>
+        <option>Documentos</option>
+        <option>Corrección de un dato</option>
+        <option>Información sobre una compañía</option>
+        <option>Otro</option>
+      </select>
+    </div>
+    <div class="form-campo"><label>Cuéntanos</label><textarea id="mensaje" placeholder="Todo lo que recuerdes es valioso."></textarea></div>
+    <button class="form-submit" onclick="enviarFormulario()">Enviar al archivo</button>
+    <p style="font-size:11px;color:var(--secundario);margin-top:.75rem">Los aportes se incorporan al archivo con tu autorización y citando la fuente.</p>
+  </div>
+</div>
+</section>
+
+</main>
+
+<footer class="pie">
+  <p><strong>Archivo Comunitario del Circo Contemporáneo de Valparaíso</strong></p>
+  <p style="margin-top:.5rem">Desde la Ex Cárcel — Parque Cultural de Valparaíso — al presente · 2025</p>
+  <p style="margin-top:.5rem">Contacto: <a href="mailto:cia.enaires@gmail.com">cia.enaires@gmail.com</a> · <a href="http://enaires.cl" target="_blank">enaires.cl</a></p>
+  <p style="margin-top:1rem;font-size:11px;opacity:.6">Versión 2 · Datos marcados con ⊕ pendientes de verificación · Última actualización: julio 2025</p>
+</footer>
+
+<script>
+const HITOS = [
+  { año:"1827", era:"antecedentes", categoria:"espacio", titulo:"Primer circo en Chile llega a Valparaíso", desc:"El circo inglés de Nathaniel Bogardus se instala en la Plaza Victoria. La calle queda llamada 'Calle del Circo'.", actores:["Nathaniel Bogardus"], fuente:"Memoria Chilena — Biblioteca Nacional", verificado:true, pendiente:false },
+  { año:"1885", era:"antecedentes", categoria:"espacio", titulo:"Los hermanos Pacheco fundan el primer circo chileno", desc:"Inauguran en Valparaíso el primer circo de propiedad chilena.", actores:["Hermanos Pacheco"], fuente:"Memoria Chilena", verificado:true, pendiente:false },
+  { año:"~1995", era:"pioneros", categoria:"compania", titulo:"Silico Circo — primera compañía de circo callejero", desc:"Compañía pionera de circo callejero contemporáneo activa en Valparaíso entre ~1995 y 2003. Colaboró con Tomás Kaulen en 'Primer mal, un artista del trapecio' (2005).", actores:["Integrantes a identificar ⊕"], fuente:"circohechizo.com / testimonio Tomás Kaulen", verificado:true, pendiente:true },
+  { año:"~1999", era:"pioneros", categoria:"gremio", titulo:"Grupo fundacional en la Ex Cárcel de Valparaíso", desc:"Un grupo de artistas comienza a reunirse en la Ex Cárcel para explorar el circo contemporáneo. Pato Giro: 'empezamos a encontrarnos, a jugar, hacer malabares y recrear los espacios del circo'.", actores:["Pato Giro","Cecilia Salas","Mario Núñez","Daniela Schuster","Otros por identificar ⊕"], fuente:"Entrevista Pato Giro, Valparaíso Creativo 2024", verificado:true, pendiente:false },
+  { año:"2000", era:"pioneros", categoria:"formacion", titulo:"Formación circense y nacimiento de AMMUVE", desc:"Se realiza formación circense para enseñar malabares. Nace AMMUVE (Agrupación de Malabaristas del Muelle Vergara), primera agrupación organizada de malabaristas de Valparaíso.", actores:["AMMUVE"], fuente:"youtube.com/watch?v=Sr3otDVZNq0", verificado:true, pendiente:false },
+  { año:"2001", era:"pioneros", categoria:"compania", titulo:"Circo Virtual — primera obra documentada", desc:"'Sin Palabras' (2001): primer montaje de Circo Virtual, colectivo que vincula teatro, música, dibujo y circo.", actores:["Juan Pablo Corvalán"], fuente:"Registro Circo Virtual", verificado:true, pendiente:false },
+  { año:"2003", era:"pioneros", categoria:"compania", titulo:"Fundación de Malabicirco · Mario y Daniela se conocen", desc:"Malabicirco se funda en Valparaíso. Mario Núñez y Daniela Schuster se conocen — inicio del proceso que dará origen a Enaires tres años después.", actores:["Javier Morales González","Wladimir Velásquez Pinto","Mario Núñez","Daniela Schuster"], fuente:"Cartografía de Circo / testimonio Daniela Schuster", verificado:true, pendiente:false },
+  { año:"2005", era:"pioneros", categoria:"compania", titulo:"Fundación Teatro Bandáscara · Primer Fondart circense", desc:"Pato Giro y Cecilia Salas fundan Teatro Bandáscara. Tomás Kaulen estrena con Fondart 'Primer mal, un artista del trapecio' con Silico Circo y Metro de Valparaíso.", actores:["Pato Giro","Cecilia Salas","Tomás Kaulen","Silico Circo"], fuente:"Teatro Bandáscara / circohechizo.com", verificado:true, pendiente:false },
+  { año:"21 abril 2006", era:"germinacion", categoria:"compania", titulo:"Nace Enaires — Galería de Artes Visuales, Cerro Cordillera", desc:"Enaires inaugura el 21 de abril de 2006 en pasaje Ramón Ángel Jara 271, edificio de la Ex-Imprenta Litográfica Universo, Cerro Cordillera. Nace como galería de artes visuales efímera, intervenida durante un año con materiales reciclados. El nombre y la identidad de Enaires nacen de este gesto de ocupación espacial.", actores:["Mario Núñez","Daniela Schuster"], fuente:"enaires.blogspot.com/2006/04 — fuente primaria", verificado:true, pendiente:false },
+  { año:"2006–2007", era:"germinacion", categoria:"gremio", titulo:"Colectivo Valparaíso Circo — primeras creaciones colectivas", desc:"Enaires, Teatro Bandáscara y otras compañías forman el Colectivo Valparaíso Circo. Creaciones: 'Concierto Aéreo en el Barrio', 'Tribus Urbanas' y 'Kermesse en el Barrio'.", actores:["Enaires","Teatro Bandáscara","Otros por identificar ⊕"], fuente:"enaires.cl / sitio Teatro Bandáscara", verificado:true, pendiente:false },
+  { año:"2006–hoy", era:"germinacion", categoria:"compania", titulo:"Colectivo Artístico Urgente Delirio — colaboración con Enaires", desc:"Colectivo que integra teatro, circo y enfoque en derechos humanos. Montajes compartidos con Enaires: 'Sadako', 'La historia de Martín el niño que no quería ser payaso', 'Una historia vieja', 'Caliche', 'Cabildo'.", actores:["Colectivo Urgente Delirio","Enaires"], fuente:"urgentedelirio.blogspot.com / testimonio Daniela Schuster", verificado:true, pendiente:false },
+  { año:"2007", era:"germinacion", categoria:"gremio", titulo:"El circo contemporáneo es reconocido como Arte Escénico", desc:"Reconocimiento formal del nuevo circo como Arte Escénico por parte del Estado chileno.", actores:["Agrupación Circo Chile"], fuente:"Ministerio de las Culturas", verificado:true, pendiente:false },
+  { año:"2010", era:"consolidacion", categoria:"festival", titulo:"1er Festival Valparaíso Circo · Carpa Azul en Cerro Barón", desc:"Enaires organiza el primer Festival Valparaíso Circo. Carpa Azul formaliza su sede en Cerro Barón tras la salida de la Ex Cárcel.", actores:["Enaires","Daniela Schuster","Pato Giro","Cecilia Salas"], fuente:"enaires.cl / Valparaíso Creativo 2024", verificado:true, pendiente:false },
+  { año:"2013", era:"consolidacion", categoria:"espacio", titulo:"PCdV inaugura — la Ex Cárcel como centro cultural", desc:"El Parque Cultural de Valparaíso abre en el edificio de la Ex Cárcel. Se convierte en el principal espacio de creación y presentación del circo contemporáneo.", actores:["PCdV","Enaires","Múltiples compañías"], fuente:"PCdV / Ministerio de las Culturas", verificado:true, pendiente:false },
+  { año:"2013", era:"consolidacion", categoria:"formacion", titulo:"Fondart Artes Circenses — Proyecto Formación Circense", desc:"Enaires adjudica Fondart área artes circenses para el 'Proyecto de Formación Circense Valparaíso Circo 2013'.", actores:["Enaires"], fuente:"enaires.cl / registros Fondart", verificado:true, pendiente:false },
+  { año:"2015", era:"consolidacion", categoria:"gremio", titulo:"Circoteca en Valparaíso · Nace Colectiva Libres, Lindas y Locas", desc:"Circoteca se lanza en el Centex de Valparaíso. La Colectiva Circense Libres, Lindas y Locas se funda como primera compañía de circo integrada exclusivamente por mujeres en la región.", actores:["Agrupación Circo Chile","Sol Catalán","Colectiva Libres Lindas y Locas"], fuente:"Circoteca / Instagram Colectiva LLL", verificado:true, pendiente:false },
+  { año:"2019", era:"crisis", categoria:"gremio", titulo:"Estallido social — el circo en la calle", desc:"El movimiento de octubre de 2019 encuentra al circo porteño en las calles. Artistas circenses participan en la revuelta, reafirmando el vínculo del circo con el territorio.", actores:["Gremio circense de Valparaíso"], fuente:"Registro comunitario ⊕", verificado:false, pendiente:true },
+  { año:"2019", era:"crisis", categoria:"espacio", titulo:"Enaires recupera la Ex Maestranza Barón", desc:"Mario Núñez y Daniela Schuster habilitan su sede en galpones de la Ex Maestranza Barón. Laboratorio escénico, clases, muestras y residencias.", actores:["Enaires","Teatro Container","Tarpuy"], fuente:"enaires.cl / Valparaíso Creativo 2024", verificado:true, pendiente:false },
+  { año:"2022", era:"presente", categoria:"gremio", titulo:"Circo Tradicional declarado Patrimonio Cultural Inmaterial", desc:"El Consejo Nacional de las Culturas declara el Circo Tradicional Chileno como PCI. El circo contemporáneo queda fuera de esta declaración.", actores:["CNCAP"], fuente:"CNCAP 2022", verificado:true, pendiente:false },
+  { año:"2023", era:"presente", categoria:"compania", titulo:"'Sueño de Voces a la Libertad' — Enaires en el PCdV", desc:"Enaires estrena obra de circo, danza y poesía en homenaje a Alejandra Pizarnik. Teatro del PCdV, 15 y 16 de junio de 2023.", actores:["Enaires","Mario Núñez","Daniela Schuster"], fuente:"La Región Hoy / enaires.cl", verificado:true, pendiente:false },
+  { año:"2025", era:"presente", categoria:"gremio", titulo:"Creación del Archivo Comunitario — este sitio", desc:"Inicio del proceso de sistematización de la memoria del circo contemporáneo de Valparaíso. Enaires como eje historiográfico. Base para la futura declaración de PCI y el libro.", actores:["Daniela Schuster","Gremio circense de Valparaíso"], fuente:"Este archivo", verificado:true, pendiente:false }
+];
+
+const ERAS = {
+  antecedentes:"Antecedentes históricos · 1827–1994",
+  pioneros:"Pioneros · ~1995–2005",
+  germinacion:"Germinación · 2006–2009",
+  consolidacion:"Consolidación · 2010–2018",
+  crisis:"Crisis y resistencia · 2019–2021",
+  presente:"Presente · 2022–hoy"
+};
+
+const CAT_LABELS = { espacio:"Espacio", compania:"Compañía", festival:"Festival", formacion:"Formación", gremio:"Gremio / Contexto" };
+
+function renderTimeline(filtro='todo'){
+  const cont = document.getElementById('timeline-contenedor');
+  cont.innerHTML = '';
+  let eraActual = null;
+  HITOS.forEach(h => {
+    const visible = filtro==='todo' || h.categoria===filtro;
+    if(!visible) return;
+    if(h.era !== eraActual){
+      eraActual = h.era;
+      const label = document.createElement('div');
+      label.className = 'era-label';
+      label.textContent = ERAS[h.era] || h.era;
+      cont.appendChild(label);
+    }
+    const hito = document.createElement('div');
+    hito.className = `hito f-${h.categoria}`;
+    hito.innerHTML = `
+      <div class="hito-meta">
+        <div class="hito-año">${h.año}</div>
+        <div class="hito-dot"></div>
+      </div>
+      <div class="hito-card">
+        <div class="hito-top">
+          <span class="hito-tag">${CAT_LABELS[h.categoria]}</span>
+          <span class="hito-titulo">${h.titulo}</span>
+        </div>
+        <div class="hito-desc">${h.desc}</div>
+        ${h.actores?.length ? `<div class="hito-actores">${h.actores.map(a=>`<span class="actor-chip">${a}</span>`).join('')}</div>` : ''}
+        ${h.pendiente ? `<div class="hito-pendiente">⊕ Dato a verificar con el gremio</div>` : ''}
+        <div class="hito-fuente">Fuente: ${h.fuente} ${h.verificado?'✓':'⊕'}</div>
+      </div>`;
+    cont.appendChild(hito);
+  });
+}
+
+function filtrar(cat, btn){
+  document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('on','f-todo','f-espacio','f-compania','f-festival','f-formacion','f-gremio'));
+  btn.classList.add('on', `f-${cat}`);
+  renderTimeline(cat);
+}
+
+document.querySelectorAll('.nav-interna a').forEach(a=>{
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    document.querySelectorAll('.nav-interna a').forEach(x=>x.classList.remove('activo'));
+    this.classList.add('activo');
+    const target = document.querySelector(this.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+function enviarFormulario(){
+  const nombre = document.getElementById('nombre').value;
+  const correo = document.getElementById('correo').value;
+  const tipo = document.getElementById('tipo').value;
+  const mensaje = document.getElementById('mensaje').value;
+  if(!nombre||!correo||!tipo||!mensaje){ alert('Por favor completa todos los campos.'); return; }
+  const asunto = encodeURIComponent(`[Archivo Circo Valparaíso] ${tipo} — ${nombre}`);
+  const cuerpo = encodeURIComponent(`Nombre: ${nombre}\nCorreo: ${correo}\nTipo: ${tipo}\n\n${mensaje}`);
+  window.open(`mailto:cia.enaires@gmail.com?subject=${asunto}&body=${cuerpo}`);
+}
+
+renderTimeline();
+</script>
+</body>
+</html>
