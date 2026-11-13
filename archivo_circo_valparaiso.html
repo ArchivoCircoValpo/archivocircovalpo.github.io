@@ -101,6 +101,35 @@ body{font-family:'Inter',sans-serif;color:var(--texto);background:var(--fondo);f
 .comp-chip{font-size:10px;background:var(--fondo);border:1px solid var(--borde);border-radius:20px;padding:1px 7px;color:var(--secundario)}
 .nucleo-badge{font-size:9px;background:#1B3A6B;color:#F4C775;border-radius:20px;padding:2px 7px;font-weight:600;letter-spacing:.5px;display:inline-block;margin-bottom:.5rem}
 
+.pers-tools{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin-bottom:1rem}
+.pers-buscar{flex:1;min-width:200px;padding:.55rem .85rem;border:1px solid var(--borde);border-radius:20px;font-family:'Inter',sans-serif;font-size:13px;background:var(--blanco);outline:none;transition:border-color .2s}
+.pers-buscar:focus{border-color:var(--azul2)}
+.filtro-btn.on.f-pers{background:var(--azul)}
+.pers-leyenda{display:flex;flex-wrap:wrap;gap:.4rem .9rem;font-size:11px;color:var(--secundario);margin-bottom:1.25rem;line-height:1.5}
+.pers-contador{font-size:11px;color:var(--secundario);margin-bottom:1rem}
+.pers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.75rem}
+.pers-card{background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r);padding:1.1rem;transition:all .2s;display:flex;flex-direction:column}
+.pers-card:hover{border-color:#888}
+.pers-card.prioridad{border-left:3px solid var(--dorado)}
+.pers-top{display:flex;gap:.75rem;align-items:center;margin-bottom:.7rem}
+.pers-ini{width:36px;height:36px;border-radius:50%;background:var(--azul);color:#F4C775;font-family:'Playfair Display',serif;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pers-nombre{font-size:14px;font-weight:500;line-height:1.3}
+.pers-alias{font-size:11px;color:var(--secundario);margin-top:1px}
+.pers-campo{font-size:12px;color:var(--texto);line-height:1.55;margin-bottom:.5rem}
+.pers-label{display:block;font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--secundario);margin-bottom:1px}
+.pers-hitos{margin-top:.2rem;padding-top:.5rem;border-top:1px solid var(--fondo);font-size:11px;color:var(--secundario);line-height:1.5;margin-bottom:.5rem}
+.pers-hitos div{margin-top:2px}
+.pers-pend{margin:.1rem 0 .5rem;padding:.55rem .7rem;background:#FDF6F5;border-radius:8px;font-size:11px;color:#791F1F;line-height:1.5}
+.pers-pend ul{list-style:none;margin-top:2px}
+.pers-pend li+li{margin-top:2px}
+.pers-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:auto;padding-top:.4rem}
+.pers-badge{font-size:10px;padding:2px 8px;border-radius:20px}
+.pb-prio{background:#FAEEDA;color:#633806;font-weight:600}
+.nv-fuente{background:#EAF3DE;color:#27500A}
+.nv-testimonio{background:#E6F1FB;color:#0C447C}
+.nv-parcial{background:#FAEEDA;color:#633806}
+.nv-pendiente{background:#FCEBEB;color:#791F1F}
+.pers-vacio{font-size:13px;color:var(--secundario);padding:1rem 0}
 .espacios-lista{display:flex;flex-direction:column;gap:.75rem}
 .espacio-item{display:flex;gap:.75rem;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r);padding:1rem}
 .espacio-dot{width:12px;height:12px;border-radius:50%;background:var(--rojo);flex-shrink:0;margin-top:4px}
@@ -178,6 +207,7 @@ body{font-family:'Inter',sans-serif;color:var(--texto);background:var(--fondo);f
     <li><a href="#timeline" class="activo">Línea de tiempo</a></li>
     <li><a href="#enaires">Núcleo: Enaires</a></li>
     <li><a href="#companias">Compañías</a></li>
+    <li><a href="#personas">Personas</a></li>
     <li><a href="#espacios">Espacios</a></li>
     <li><a href="#internacional">Internacional</a></li>
     <li><a href="#fuentes">Fuentes</a></li>
@@ -430,6 +460,30 @@ body{font-family:'Inter',sans-serif;color:var(--texto);background:var(--fondo);f
     </div>
 
   </div>
+</div>
+</section>
+
+<section class="seccion" id="personas">
+<div class="contenedor">
+  <p class="sec-eyebrow">Quienes hicieron la escena</p>
+  <h2 class="sec-titulo">Per<em>sonas</em></h2>
+  <p class="sec-intro">Una ficha por persona: rol, vínculo con Valparaíso y nivel de verificación. Lo que aún no está confirmado se marca con ⊕. ¿Falta alguien, o algún dato está mal? <a href="#participa" style="color:var(--azul2)">Cuéntanoslo aquí</a>.</p>
+  <div class="pers-tools">
+    <input type="search" id="pers-buscar" class="pers-buscar" placeholder="Buscar por nombre, compañía o lugar…" oninput="renderPersonas()">
+    <div class="filtros" style="margin-bottom:0">
+      <button class="filtro-btn on f-pers" data-pf="todas" onclick="filtrarPersonas('todas',this)">Todas</button>
+      <button class="filtro-btn" data-pf="prioridad" onclick="filtrarPersonas('prioridad',this)">Entrevista prioritaria</button>
+      <button class="filtro-btn" data-pf="pendiente" onclick="filtrarPersonas('pendiente',this)">Por verificar ⊕</button>
+    </div>
+  </div>
+  <div class="pers-leyenda">
+    <span><span class="pers-badge nv-fuente">Fuente publicada</span> lo central tiene fuente citada</span>
+    <span><span class="pers-badge nv-testimonio">Testimonio</span> viene del testimonio de Daniela Schuster, sin fuente externa aún</span>
+    <span><span class="pers-badge nv-parcial">Parcial ⊕</span> solo una parte tiene fuente</span>
+    <span><span class="pers-badge nv-pendiente">Por verificar ⊕</span> sin fuente</span>
+  </div>
+  <div class="pers-contador" id="pers-contador"></div>
+  <div class="pers-grid" id="pers-grid"></div>
 </div>
 </section>
 
@@ -774,7 +828,7 @@ body{font-family:'Inter',sans-serif;color:var(--texto);background:var(--fondo);f
   <p><strong>Archivo Comunitario del Circo Contemporáneo de Valparaíso</strong></p>
   <p style="margin-top:.5rem">Desde la Ex Cárcel — Parque Cultural de Valparaíso — al presente · 2026</p>
   <p style="margin-top:.5rem">Contacto: <a href="mailto:cia.enaires@gmail.com">cia.enaires@gmail.com</a> · <a href="http://enaires.cl" target="_blank">enaires.cl</a></p>
-  <p style="margin-top:1rem;font-size:11px;opacity:.6">Versión 6 · Correcciones de datos y fuentes · Noviembre 2026 · Datos marcados con ⊕ por verificar</p>
+  <p style="margin-top:1rem;font-size:11px;opacity:.6">Versión 7 · Pestaña de Personas · Noviembre 2026 · Datos marcados con ⊕ por verificar</p>
 </footer>
 
 <script>
@@ -784,8 +838,8 @@ const HITOS = [
   { año:"~1995", era:"pioneros", categoria:"compania", titulo:"Silico Circo — primera compañía de circo callejero", desc:"Compañía pionera de circo callejero contemporáneo activa en Valparaíso entre ~1995 y 2003. Colaboró con Tomás Kaulen en 'Primer mal, un artista del trapecio' (2005).", actores:["Integrantes a identificar ⊕"], fuente:"Documental «Silico Circo (1995–2003)», dirección y edición Carlos Muñoz «Sombra» (youtube.com/watch?v=Sr3otDVZNq0)", verificado:true, pendiente:false },
   { año:"~1999", era:"pioneros", categoria:"gremio", titulo:"Grupo fundacional en la Ex Cárcel de Valparaíso", desc:"Un grupo de artistas comienza a reunirse en la Ex Cárcel para explorar el circo contemporáneo, en torno a la Escuela Popular de Circo Experimental. Entre sus protagonistas: Tomás Díaz y Rodrigo Blanco.", actores:["Tomás Díaz","Rodrigo Blanco","Escuela Popular de Circo Experimental","Mario Núñez","Daniela Schuster","Otros por identificar ⊕"], fuente:"Testimonio Daniela Schuster, 2026 — por confirmar con Tomás Díaz y Rodrigo Blanco", verificado:false, pendiente:true },
   { año:"2000", era:"pioneros", categoria:"formacion", titulo:"Formación circense y nacimiento de AMMUVE", desc:"Se realiza formación circense para enseñar malabares. Nace AMMUVE (Agrupación de Malabaristas del Muelle Vergara), primera agrupación organizada de malabaristas de Valparaíso.", actores:["AMMUVE"], fuente:"Documental «Silico Circo (1995–2003)» — confirmar en qué minuto aparece AMMUVE", verificado:false, pendiente:true },
-  { año:"2001", era:"pioneros", categoria:"compania", titulo:"Circo Virtual — primera obra documentada", desc:"'Sin Palabras' (2001): primer montaje de Circo Virtual, colectivo que vincula teatro, música, dibujo y circo.", actores:["Juan Pablo Corvalán"], fuente:"Registro Circo Virtual", verificado:true, pendiente:false },
   { año:"2003", era:"pioneros", categoria:"compania", titulo:"Fundación de Malabicirco", desc:"Malabicirco se funda en Valparaíso. Fundadores: Javier Morales González y Wladimir Velásquez Pinto.", actores:["Javier Morales González","Wladimir Velásquez Pinto"], fuente:"Cartografía de Circo", verificado:true, pendiente:false },
+  { año:"2004–2005", era:"pioneros", categoria:"espacio", titulo:"Residencia de creación en la Ex-Maestranza Barón · Estreno de «Primer Mal»", desc:"Durante 2004, la compañía Circo en Picada realiza una de las primeras residencias de creación en la emblemática Ex-Maestranza Barón. En 2005 estrena «Primer Mal: un artista de trapecio», obra realizada en la Ex-Maestranza Barón. Fue un proyecto en común que reunió a dos compañías, Silico Circo y Quinto Circo, y en el que actúa Ingrid Flores. Por conciliar con el hito de 2005 (Fondart, Tomás Kaulen) y por confirmar los nombres de las compañías. ⊕", actores:["Circo en Picada","Silico Circo","Quinto Circo","Ingrid Flores"], fuente:"Testimonio Daniela Schuster, 2026 — fechas y nombres de compañías por confirmar", verificado:false, pendiente:true },
   { año:"2005", era:"pioneros", categoria:"compania", titulo:"Fundación Teatro Bandáscara · Primer Fondart circense", desc:"Pato Giro y Cecilia Salas fundan Teatro Bandáscara. Tomás Kaulen estrena con Fondart 'Primer mal, un artista del trapecio' con Silico Circo y Metro de Valparaíso.", actores:["Pato Giro","Cecilia Salas","Tomás Kaulen","Silico Circo"], fuente:"Teatro Bandáscara / circohechizo.com", verificado:true, pendiente:false },
   { año:"21 abril 2006", era:"germinacion", categoria:"compania", titulo:"Nace Enaires — Galería de Artes Visuales, Cerro Cordillera", desc:"Enaires inaugura el 21 de abril de 2006 en pasaje Ramón Ángel Jara 271, edificio de la Ex-Imprenta Litográfica Universo, Cerro Cordillera. Nace como galería de artes visuales efímera, intervenida durante un año con materiales reciclados. El nombre y la identidad de Enaires nacen de este gesto de ocupación espacial.", actores:["Mario Núñez","Daniela Schuster"], fuente:"enaires.blogspot.com/2006/04 — fuente primaria", verificado:true, pendiente:false },
   { año:"2006–2007", era:"germinacion", categoria:"gremio", titulo:"Colectivo Valparaíso Circo — primeras creaciones colectivas", desc:"Enaires, Teatro Bandáscara y otras compañías forman el Colectivo Valparaíso Circo. Creaciones: 'Concierto Aéreo en el Barrio', 'Tribus Urbanas' y 'Kermesse en el Barrio'.", actores:["Enaires","Teatro Bandáscara","Otros por identificar ⊕"], fuente:"enaires.cl / sitio Teatro Bandáscara", verificado:true, pendiente:false },
@@ -878,6 +932,181 @@ function enviarFormulario(){
 }
 
 renderTimeline();
+
+/* ===== PERSONAS ===== */
+const NIVELES = {
+  fuente:{t:"Fuente publicada"}, testimonio:{t:"Testimonio"},
+  parcial:{t:"Parcial ⊕"}, pendiente:{t:"Por verificar ⊕"}
+};
+const PERSONAS = [
+  { n:"Ingrid Flores Moncada", alias:["Ingrid Flores"], nivel:"testimonio",
+    rol:"Directora de Desnudo Cirko.",
+    vinculo:"Cofundadora del Festival Valparaíso Circo (2010). Formó a Catalina Iglesias en la Ex Cárcel. Actúa en «Primer Mal: un artista de trapecio» (2005), obra realizada en la Ex-Maestranza Barón.",
+    extra:["Premio a las Artes Escénicas Nacionales «Presidente de la República» 2023."],
+    pend:["Fuente pública del premio (nota o acta oficial)","Años de su trabajo formativo en la Ex Cárcel"] },
+
+  { n:"Mimo Tuga", nivel:"testimonio", desde:2009,
+    rol:"Creador de la Invasión Callejera (2009). ⊕ Disciplina.",
+    vinculo:"⊕ Por precisar.",
+    extra:["Reconocimiento (2016)","Pista de Oro (2018)","Nikulin, Moscú (2019)","Girona (2019)","Argentina (2019)"],
+    pend:["Nombre completo","Dónde y cómo nació la Invasión Callejera","Quién otorgó cada premio y en qué ciudad o festival","Vínculo con Valparaíso"] },
+
+  { n:"Mario Núñez", nivel:"fuente", prioridad:true,
+    rol:"Enaires. Con Daniela Schuster, habilita la sede en la Ex Maestranza Barón (2019–2026).",
+    vinculo:"Enaires nace el 21 de abril de 2006. Desde septiembre de 2026, sede en el Barrio Puerto.",
+    pend:["Rol exacto dentro de Enaires","Su participación en el grupo de la Ex Cárcel (~1999), por confirmar con Tomás Díaz y Rodrigo Blanco"] },
+
+  { n:"Daniela Schuster", alias:["Laura Daniela Schuster"], nivel:"testimonio", prioridad:true,
+    rol:"Enaires y ContrahíloLab.",
+    vinculo:"Una de las primeras presidentas de la personalidad jurídica de Carpa Azul. Enaires participó en la organización del Festival Valparaíso Circo durante sus primeros cinco años.",
+    pend:["Ficha basada en testimonio propio: falta contraste con fuente externa"] },
+
+  { n:"Pato Giro", nivel:"fuente", prioridad:true,
+    rol:"Fundó, junto a Cecilia Salas, Teatro Bandáscara (2005).",
+    vinculo:"Teatro Bandáscara (Valparaíso), Colectivo Valparaíso Circo (2006–2007) y Carpa Azul.",
+    pend:["Años de vínculo con Carpa Azul (el archivo la sitúa «desde ~1999» en Compañías y en 2010 en la línea de tiempo)"] },
+
+  { n:"Cecilia Salas", nivel:"fuente", prioridad:true,
+    rol:"Fundó, junto a Pato Giro, Teatro Bandáscara (2005). Bandita Disparate.",
+    vinculo:"Teatro Bandáscara (Valparaíso), Colectivo Valparaíso Circo (2006–2007), Carpa Azul y Bandita Disparate (Cerro Barón).",
+    pend:["Años de vínculo con Carpa Azul","Rol en Bandita Disparate"] },
+
+  { n:"Wily", nivel:"pendiente", desde:2002,
+    rol:"Constructor. Gestiona el Taller El Litre junto a Mayra. ⊕ Apellido.",
+    vinculo:"Taller El Litre (desde 2002 según el archivo). Construyó la cúpula de Carpa Azul y colaboró en escenografías de múltiples compañías.",
+    pend:["Apellido","Fuente de los datos del Taller El Litre","Año de construcción de la cúpula de Carpa Azul"] },
+
+  { n:"Mayra Olivares", nivel:"pendiente", desde:2002,
+    rol:"Diseñadora. Gestiona el Taller El Litre junto a Wily.",
+    vinculo:"Taller El Litre (desde 2002 según el archivo). Testigo del intercambio internacional en Valparaíso.",
+    pend:["Confirmar apellido","Fuente de los datos del Taller El Litre","Rol exacto (diseño, vestuario, dirección)"] },
+
+  { n:"Sol Catalán", nivel:"fuente", prioridad:true,
+    rol:"Colectiva Circense Libres, Lindas y Locas. ⊕ Rol dentro de la colectiva.",
+    vinculo:"La colectiva se funda en Valparaíso en 2015 y participó en el Festival Valparaíso Circo 2021.",
+    pend:["Rol específico y trayectoria personal"] },
+
+  { n:"Tomás Kaulen", alias:["Tomás Kaulen ⊕"], nivel:"fuente", prioridad:true,
+    rol:"Estrena con Fondart «Primer mal, un artista del trapecio» (2005). Con Álvaro Pacheco, funda ECPKH (2010); Circo Hechizo (2017).",
+    vinculo:"Compañías ECPKH y Circo Hechizo, Valparaíso.",
+    pend:["Su participación en «Rueda, un viaje entre cuerdas»: 2007 o 2008, fechas por conciliar"] },
+
+  { n:"Juan Pablo Corvalán", nivel:"pendiente",
+    rol:"Circo Virtual: «Sin Palabras» (2001).",
+    vinculo:"⊕ En revisión: se indica que Circo Virtual no es de Valparaíso.",
+    pend:["Confirmar su vínculo con Valparaíso; si no existe, retirar la ficha"] },
+
+  { n:"Javier Morales González", nivel:"fuente",
+    rol:"Cofundador de Malabicirco (2003).",
+    vinculo:"Malabicirco (Valparaíso) y CIMAC, Congreso Internacional de Malabarismo y Artes Circenses (PCdV).",
+    pend:["Rol específico en CIMAC"] },
+
+  { n:"Wladimir Velásquez Pinto", nivel:"fuente",
+    rol:"Cofundador de Malabicirco (2003).",
+    vinculo:"Malabicirco (Valparaíso) y CIMAC, Congreso Internacional de Malabarismo y Artes Circenses (PCdV).",
+    pend:["Rol específico en CIMAC"] },
+
+  { n:"Tomás Díaz", nivel:"pendiente",
+    rol:"Protagonista del grupo en torno a la Escuela Popular de Circo Experimental (~1999).",
+    vinculo:"Ex Cárcel de Valparaíso.",
+    pend:["Confirmación de la propia persona","Su trayectoria posterior"] },
+
+  { n:"Rodrigo Blanco", nivel:"pendiente",
+    rol:"Protagonista del grupo en torno a la Escuela Popular de Circo Experimental (~1999).",
+    vinculo:"Ex Cárcel de Valparaíso.",
+    pend:["Confirmación de la propia persona","Su trayectoria posterior"] },
+
+  { n:"Catalina Iglesias", nivel:"testimonio",
+    rol:"⊕ Disciplina. Formada en la Ex Cárcel por Ingrid Flores. Estudió en la escuela de circo de Rosario.",
+    vinculo:"Formada en la Ex Cárcel de Valparaíso. Viene a Valparaíso cada temporada.",
+    pend:["Nombre y país de la escuela de Rosario","Desde dónde viene cada temporada","Años de su formación en la Ex Cárcel"] },
+
+  { n:"Camila Cion", nivel:"testimonio",
+    rol:"Da clases en la TIAO, junto a Enaires. Propulsora de circo del interior.",
+    vinculo:"⊕ TIAO: confirmar que es la Casa TIAO (Yungar 1772, 2006–2023) y el período de sus clases.",
+    pend:["Qué zona es «el interior»","Período y disciplina de sus clases","Confirmar que TIAO es la Casa TIAO"] },
+
+  { n:"Francisca Perez", nivel:"testimonio",
+    rol:"Fundadora de Elemento Éter.",
+    vinculo:"⊕ Por precisar.",
+    pend:["Qué es Elemento Éter y desde cuándo existe","Su vínculo con Valparaíso","Disciplina"] },
+
+  { n:"Gonzalo Díaz «Chumbeque»", alias:["Chumbeque"], nivel:"pendiente",
+    rol:"⊕ Por completar.",
+    vinculo:"⊕ Por completar.",
+    pend:["Todos los datos: rol, vínculo con Valparaíso y fuente"] },
+
+  { n:"Satchie Noro", nivel:"parcial", desde:2015,
+    rol:"⊕ Por precisar. Proyecto «Sillas con Piernas» (2015), en los Talleres de Creación para Artistas Circenses del Ministerio de las Culturas.",
+    vinculo:"Galpón Violeta, Parque Cultural Playa Ancha (Santa Teresa 207-211). Fuente: cultura.gob.cl.",
+    pend:["Rol (artista, formador u otro)","Trayectoria posterior"] },
+
+  { n:"Luciana Mosca", nivel:"pendiente",
+    rol:"Artista argentina, formadora circense.",
+    vinculo:"Activa en la Carpa Azul de Valparaíso, según el archivo.",
+    pend:["Fuente (compañías internacionales sin fuente)","Período en Valparaíso"] },
+
+  { n:"Rensi Veninga", nivel:"parcial", desde:2010,
+    rol:"⊕ Por precisar. Trabajó en paralelo con Enaires en Espacio Fábrica.",
+    vinculo:"Espacio Fábrica, Cooperativa de Artes y Oficios, Cerro Polanco (desde diciembre de 2010; cierre por confirmar).",
+    pend:["Rol y disciplina","Período de su trabajo en Espacio Fábrica"] }
+];
+
+const limpiar = t => t.replace(/⊕/g,'').trim();
+const norm = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+let persFiltro = 'todas';
+
+function hitosDe(p){
+  const nombres = [p.n, ...(p.alias||[])].map(limpiar);
+  return HITOS.filter(h => (h.actores||[]).some(a => nombres.includes(limpiar(a))));
+}
+function primerAño(p, hs){
+  const ys = hs.map(h => parseInt((h.año.match(/\d{4}/)||[])[0])).filter(Boolean);
+  if(p.desde) ys.push(p.desde);
+  return ys.length ? Math.min(...ys) : 9999;
+}
+function iniciales(n){
+  const w = n.replace(/[«»"]/g,'').split(' ').filter(Boolean);
+  return (w[0][0] + (w.length>1 ? w[1][0] : '')).toUpperCase();
+}
+function filtrarPersonas(f, btn){
+  persFiltro = f;
+  document.querySelectorAll('[data-pf]').forEach(b => b.classList.remove('on','f-pers'));
+  btn.classList.add('on','f-pers');
+  renderPersonas();
+}
+function renderPersonas(){
+  const q = norm(document.getElementById('pers-buscar').value || '');
+  const lista = PERSONAS.map(p => { const hs = hitosDe(p); return {p, hs, orden: primerAño(p, hs)}; })
+    .sort((a,b) => a.orden - b.orden || a.p.n.localeCompare(b.p.n,'es'))
+    .filter(({p}) => {
+      if(persFiltro==='prioridad' && !p.prioridad) return false;
+      if(persFiltro==='pendiente' && !['parcial','pendiente'].includes(p.nivel)) return false;
+      if(!q) return true;
+      return norm([p.n, ...(p.alias||[]), p.rol, p.vinculo].join(' ')).includes(q);
+    });
+  document.getElementById('pers-contador').textContent =
+    lista.length + (lista.length===1 ? ' persona' : ' personas') + ' de ' + PERSONAS.length + ' registradas';
+  const grid = document.getElementById('pers-grid');
+  if(!lista.length){ grid.innerHTML = '<div class="pers-vacio">No encontramos a nadie con ese criterio. ¿Falta alguien? Cuéntanoslo en «Participa».</div>'; return; }
+  grid.innerHTML = lista.map(({p,hs}) => `
+    <div class="pers-card${p.prioridad?' prioridad':''}">
+      <div class="pers-top">
+        <div class="pers-ini">${iniciales(p.n)}</div>
+        <div><div class="pers-nombre">${p.n}</div>${p.alias?.filter(a=>!a.includes('⊕')).length?`<div class="pers-alias">${p.alias.filter(a=>!a.includes('⊕')).join(' · ')}</div>`:''}</div>
+      </div>
+      <div class="pers-campo"><span class="pers-label">Rol</span>${p.rol}</div>
+      <div class="pers-campo"><span class="pers-label">Vínculo con Valparaíso</span>${p.vinculo}</div>
+      ${p.extra?.length?`<div class="pers-campo"><span class="pers-label">Reconocimientos</span>${p.extra.join(' · ')}</div>`:''}
+      ${hs.length?`<div class="pers-hitos"><strong>En la línea de tiempo</strong>${hs.map(h=>`<div>${h.año} · ${h.titulo.split(' — ')[0]}<br><span style="color:#B4B2A9">Fuente: ${h.fuente.replace(/\s*\(youtube[^)]*\)/,'')} ${h.verificado?'✓':'⊕'}</span></div>`).join('')}</div>`:''}
+      ${p.pend?.length?`<div class="pers-pend"><strong>⊕ Por verificar</strong><ul>${p.pend.map(x=>`<li>· ${x}</li>`).join('')}</ul></div>`:''}
+      <div class="pers-badges">
+        ${p.prioridad?'<span class="pers-badge pb-prio">Entrevista prioritaria</span>':''}
+        <span class="pers-badge nv-${p.nivel}">${NIVELES[p.nivel].t}</span>
+      </div>
+    </div>`).join('');
+}
+renderPersonas();
 </script>
 </body>
 </html>
